@@ -527,7 +527,7 @@ if __name__ == '__main__':
             func_ScurveMeanVsThrDac.GetParameter(1),
             func_ScurveMeanVsThrDac.GetParError(1),
             func_ScurveSigmaVsThrDac.GetParameter(0),
-            func_ScurveSigmaVsThrDac.GetParError(1))
+            func_ScurveSigmaVsThrDac.GetParError(0))
             )
 
     if args.savePlots:
