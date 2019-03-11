@@ -163,7 +163,7 @@ if __name__ == '__main__':
                       help="If the data is from a trimmed scan, plot the value it tried aligning to", metavar="IsTrimmed")
     parser.add_option("--zscore", type="float", dest="zscore", default=3.5,
                       help="Z-Score for Outlier Identification in MAD Algo", metavar="zscore")
-
+    
     from optparse import OptionGroup
     chanMaskGroup = OptionGroup(
             parser,
@@ -175,10 +175,10 @@ if __name__ == '__main__':
     chanMaskGroup.add_option("--highNoiseCut", type="float", dest="highNoiseCut", default=1.0,
                       help="Threshold for setting the HighNoise maskReason, if channel (scurve_sigma > highNoiseCut) then HighNoise is set",
                       metavar="highNoiseCut")
-    chanMaskGroup.add_option("--deadChanCutLow", type="float", dest="deadChanCutLow", default=4.14E-02,
+    chanMaskGroup.add_option("--deadChanCutLow", type="float", dest="deadChanCutLow", default=deadChanCutLow_defaultValue,
                       help="If channel (deadChanCutLow < scurve_sigma < deadChanCutHigh) then DeadChannel is set",
                       metavar="deadChanCutLow")
-    chanMaskGroup.add_option("--deadChanCutHigh", type="float", dest="deadChanCutHigh", default=1.09E-01,
+    chanMaskGroup.add_option("--deadChanCutHigh", type="float", dest="deadChanCutHigh", default=deadChanCutHigh_defaultValue,
                       help="If channel (deadChanCutHigh < scurve_sigma < deadChanCutHigh) then DeadChannel is set",
                       metavar="deadChanCutHigh")
     parser.add_option_group(chanMaskGroup)
@@ -192,7 +192,15 @@ if __name__ == '__main__':
     
     outfilename = options.outfilename
     GEBtype = options.GEBtype
-   
+
+    if options.isVFAT3:
+        deadChanCutLow_defaultValue = 1.0E-02
+        deadChanCutHigh_defaultValue = 5.0E-01 
+    else:
+        deadChanCutLow_defaultValue = 4.14E-02
+        deadChanCutHigh_defaultValue = 1.09E-01
+    pass
+
     # Create the output File and TTree
     outF = r.TFile(filename+'/'+outfilename, 'recreate')
     if options.performFit:
